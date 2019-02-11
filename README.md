@@ -1,3 +1,58 @@
+# How to use DeepFake
+
+Let us assume that I have a video clip where I want to replace the face with someone else's face. 
+
+## Datasets
+
+To train a network and generate a model, we need to prepare two groups of faces.
+
+- dataA: face to be replaced
+- dataB: face to replace
+
+### How to create face images
+
+Get a video clip that you want to replace the face with someone else. It is better to have diverse facial emotions and gaze directions.
+
+Generate image frames from a video clip.
+
+```
+$ cd datasets/dataA/actress1/
+$ ffmpeg -i path/to/clip.mp4 -vf fps=30 clip%05d.png
+```
+
+Extract faces from the images.
+
+```
+$ python faceswap.py extract -i datasets/dataA/actress1 -o datasets/dataA/actress1/extracted -D mtcnn -r 45 -ae
+```
+
+Remove non-face images from the `extracted` folder since the extractor isn't perfect and non-face images will hinder the training process.
+
+### dataA
+
+The images to swap face from dataB must be here.
+
+- `./datasets/dataA/actress1/*.png`
+
+The conversion results will be saved at 
+- `./datasets/dataA/idol1/` as a form of `image%05d.png`.
+
+The _face_ images to be used to train a network must be at
+- `./datasets/dataA/actress1/extracted/*.png` 
+
+### dataB
+
+The face images that we want to replace with them in dataA.
+
+- `./datasets/dataB/idol1/extracted/*.png` 
+
+
+
+
+
+---
+
+
 **Notice:** This repository is not operated or maintained by /u/deepfakes. Please read the explanation below for details.
 # deepfakes_faceswap
 

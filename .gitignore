@@ -25,5 +25,7 @@
 !tools
 !tools/lib*
 
+./datasets/
+
 *.pyc
 __pycache__/
