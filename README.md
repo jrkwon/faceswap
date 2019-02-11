@@ -6,8 +6,8 @@ Let us assume that I have a video clip where I want to replace the face with som
 
 To train a network and generate a model, we need to prepare two groups of faces.
 
-- dataA: face to be replaced
-- dataB: face to replace
+- dataA: face to be replaced - an actor/actress
+- dataB: face to replace - an idol
 
 ### How to create face images
 
@@ -17,7 +17,7 @@ Generate image frames from a video clip.
 
 ```
 $ cd datasets/dataA/actress1/
-$ ffmpeg -i path/to/clip.mp4 -vf fps=30 clip%05d.png
+$ ffmpeg -i path/to/clip1.mp4 -vf fps=30 clip%05d.png
 ```
 
 Extract faces from the images.
@@ -28,19 +28,40 @@ $ python faceswap.py extract -i datasets/dataA/actress1 -o datasets/dataA/actres
 
 Remove non-face images from the `extracted` folder since the extractor isn't perfect and non-face images will hinder the training process.
 
-### dataA
+We have to repeat the same procedure to get a face data to replace the face that we get the first step.
+
+Generate image frames from a video clip.
+
+```
+$ cd datasets/dataB/idol1/
+$ ffmpeg -i path/to/clip2.mp4 -vf fps=30 clip%05d.png
+```
+
+Extract faces from the images.
+
+```
+$ python faceswap.py extract -i datasets/dataB/idol1 -o datasets/dataB/idol1/extracted -D mtcnn -r 45 -ae
+```
+
+Again, remove non-face iamges from the output folde.
+
+### About the Datasets
+
+#### dataA
 
 The images to swap face from dataB must be here.
 
 - `./datasets/dataA/actress1/*.png`
 
 The conversion results will be saved at 
+
 - `./datasets/dataA/idol1/` as a form of `image%05d.png`.
 
 The _face_ images to be used to train a network must be at
+
 - `./datasets/dataA/actress1/extracted/*.png` 
 
-### dataB
+#### dataB
 
 The face images that we want to replace with them in dataA.
 
@@ -48,8 +69,8 @@ The face images that we want to replace with them in dataA.
 
 
 
-
-
+---
+### Followings are from the original README.
 ---
 
 
