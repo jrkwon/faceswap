@@ -1,6 +1,6 @@
-./datasets/
 
 *
+!*.sh
 !setup.cfg
 !*.keep
 !*.py
